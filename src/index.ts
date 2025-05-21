@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
-import { getDatabase, connectToDatabase } from './db'
-import express, { RequestHandler } from 'express'
+import { connectToDatabase } from './db'
+import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import { initializeServer } from './initializeServer'
