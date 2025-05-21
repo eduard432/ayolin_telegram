@@ -10,8 +10,8 @@ export const initializeServer = async () => {
 		.find({ type: 'tg' })
 		.toArray()
 	integrations.forEach(async (integration) => {
-		const { chatBotId, config } = integration
-		if (!config.token) return
-		await createBotInstance(config.token, chatBotId.toString())
+		const { chatBotId, settings } = integration
+		if (!settings.token) return
+		await createBotInstance(settings.token, chatBotId.toString())
 	})
 }

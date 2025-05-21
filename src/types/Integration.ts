@@ -14,7 +14,7 @@ export interface IntegrationRecord extends Integration {
 export interface Integration {
 	type: IntegrationType
 	users: string[]
-	config: {
+	settings: {
 		[key: string]: string
 	}
 }
