@@ -19,7 +19,7 @@ const handleMessage = async (
 
 	const conversation: Message[] = [...chat.messages, newMessage]
 
-	const url = `${process.env.API_URL}/chat/${chat._id.toString()}/basic`
+	const url = `${process.env.API_URL}/${chat._id.toString()}/chat/basic`
 
 	const response = await fetch(
 		url,
