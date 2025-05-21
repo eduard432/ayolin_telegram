@@ -9,6 +9,7 @@ const handleMessage = async (
 	chat: WithId<Chat>,
 	ctx: Context & { message: { text: string } }
 ) => {
+	console.log('exec')
 	const newMessageId =
 		ctx.msgId?.toString() || (chat.messages.length + 1).toString()
 	const newMessage: Message = {
@@ -29,11 +30,12 @@ const handleMessage = async (
 			body: JSON.stringify({ messages: conversation }),
 		}
 	)
-	const { reply }: {reply: string} = await response.json()
-	return ctx.reply(reply)
+	const resp = await response.json()
+	return ctx.reply(resp.reply || 'Error en la validación')
 }
 
 export async function createBotInstance(token: string, chatBotId: string) {
+	console.log({token})
 	const bot = new Bot(token)
 
 	const db = await getDatabase()
@@ -45,7 +47,7 @@ export async function createBotInstance(token: string, chatBotId: string) {
 
 	if (!chatBot) return
 
-	chatBot.name = chatBot.name
+	const name = chatBot.name
 
 	bot.command('start', (ctx) =>
 		ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
@@ -79,14 +81,16 @@ export async function createBotInstance(token: string, chatBotId: string) {
 	})
 
 	// Inicia el bot en modo polling
-	bot
+	const error = await bot
 		.start()
 		.then(() => {
 			console.log(`${name} iniciado con éxito.`)
+			return false
 		})
 		.catch((err) => {
 			console.error(`Error iniciando ${name}:`, err.message)
+			return true
 		})
 
-	return bot
+	return error
 }
