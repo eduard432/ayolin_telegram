@@ -35,7 +35,6 @@ const handleMessage = async (
 }
 
 export async function createBotInstance(token: string, chatBotId: string) {
-	console.log({token})
 	const bot = new Bot(token)
 
 	const db = await getDatabase()
@@ -80,17 +79,6 @@ export async function createBotInstance(token: string, chatBotId: string) {
 		return handleMessage(chat, ctx)
 	})
 
-	// Inicia el bot en modo polling
-	const error = await bot
-		.start()
-		.then(() => {
-			console.log(`${name} iniciado con éxito.`)
-			return false
-		})
-		.catch((err) => {
-			console.error(`Error iniciando ${name}:`, err.message)
-			return true
-		})
 
-	return error
+	return bot
 }
